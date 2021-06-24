@@ -81,29 +81,29 @@ resource "aws_efs_mount_target" "mount" {
   subnet_id       = element(var.mount_target_subnets, count.index)
 }
 
-module "efs_burst_credits" {
-  source = "git@github.com:rackspace-infrastructure-automation/aws-terraform-cloudwatch_alarm//?ref=v0.12.6"
+#module "efs_burst_credits" {
+#  source = "git@github.com:rackspace-infrastructure-automation/aws-terraform-cloudwatch_alarm//?ref=v0.12.6"
 
-  alarm_description        = "EFS Burst Credits have dropped below ${var.cw_burst_credit_threshold} for ${var.cw_burst_credit_period} periods."
-  alarm_name               = "${var.name}-EFSBurstCredits"
-  comparison_operator      = "LessThanThreshold"
-  evaluation_periods       = var.cw_burst_credit_period
-  metric_name              = "BurstCreditBalance"
-  namespace                = "AWS/EFS"
-  notification_topic       = var.notification_topic
-  period                   = "3600"
-  rackspace_alarms_enabled = var.rackspace_alarms_enabled
-  rackspace_managed        = var.rackspace_managed
-  severity                 = "emergency"
-  statistic                = "Minimum"
-  threshold                = var.cw_burst_credit_threshold
+#  alarm_description        = "EFS Burst Credits have dropped below ${var.cw_burst_credit_threshold} for ${var.cw_burst_credit_period} periods."
+#  alarm_name               = "${var.name}-EFSBurstCredits"
+#  comparison_operator      = "LessThanThreshold"
+#  evaluation_periods       = var.cw_burst_credit_period
+#  metric_name              = "BurstCreditBalance"
+#  namespace                = "AWS/EFS"
+#  notification_topic       = var.notification_topic
+#  period                   = "3600"
+#  rackspace_alarms_enabled = var.rackspace_alarms_enabled
+#  rackspace_managed        = var.rackspace_managed
+#  severity                 = "emergency"
+#  statistic                = "Minimum"
+#  threshold                = var.cw_burst_credit_threshold
 
-  dimensions = [
-    {
-      FileSystemId = aws_efs_file_system.fs.id
-    },
-  ]
-}
+#  dimensions = [
+#    {
+#      FileSystemId = aws_efs_file_system.fs.id
+#    },
+#  ]
+#}
 
 resource "aws_route53_record" "efs" {
   count = var.create_internal_zone_record ? 1 : 0
